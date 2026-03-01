@@ -107,13 +107,13 @@ def precompute_features(dataset_path, save_path, batch_size=16):
     df = pd.DataFrame(records, columns=["filepath", "label"])
     df.to_csv(save_path / "labels.csv", index=False)
     
-    with open("/kaggle/working/label_map.json", "w") as f:
+    with open("label_map.json", "w") as f:
         json.dump(label_map, f)
         
     print("Done!")
     return label_map
 
 #######################################################################
-dataset_path = Path("ucf101/UCF101/UCF-101")
-save_path = Path("Precomputed_Features")
-label_map = precompute_features(dataset_path, save_path, batch_size=32)
+# dataset_path = Path("ucf101/UCF101/UCF-101")
+# save_path = Path("Precomputed_Features")
+# label_map = precompute_features(dataset_path, save_path, batch_size=32)
