@@ -1,4 +1,5 @@
 from tensorflow.keras.applications import ResNet50
+from tensorflow.keras.models import Model
 from tqdm.notebook import tqdm
 import tensorflow as tf
 from pathlib import Path
@@ -7,6 +8,14 @@ import pandas as pd
 import json
 import os
 import cv2
+
+augmentation_layer = tf.keras.models.Sequential([
+    tf.keras.layers.RandomFlip("horizontal"),
+    tf.keras.layers.RandomRotation(0.01),
+    tf.keras.layers.RandomZoom(0.01),
+    tf.keras.layers.RandomContrast(0.1),
+    tf.keras.layers.RandomBrightness(0.1)
+])
 
 gpus = tf.config.list_physical_devices('GPU')
 for gpu in gpus:
@@ -45,6 +54,7 @@ def preprocess_video(frames):
     return np.stack(processed)
 
 def build_feature_extractor():
+    
     resnet_50 = ResNet50(
     include_top=False,
     weights="imagenet",
@@ -52,7 +62,14 @@ def build_feature_extractor():
     pooling="avg"
     )
     resnet_50.trainable = False
-    return resnet_50
+    
+    input_  = tf.keras.layers.Input(shape=(224, 224, 3))
+    augmentation = augmentation_layer(input_)
+    output = resnet_50(augmentation)
+    
+    model = Model(inputs=input_, outputs = output)
+    
+    return model
 
 def extract_features(processed_frames, verbose:int=0):
     features = feature_extractor.predict(processed_frames, verbose=verbose)

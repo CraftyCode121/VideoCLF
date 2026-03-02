@@ -10,7 +10,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(BASE_DIR, "src"))
-model = tf.keras.models.load_model(os.path.join(BASE_DIR, "models/VideoCLF.keras"))
+model = tf.keras.models.load_model(os.path.join(BASE_DIR, "models/VideoCLF_v2.keras"))
 
 val_dataset = build_dataset(csv_path="val.csv", batch_size=32, shuffle=False)
 

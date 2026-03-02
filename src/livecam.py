@@ -11,7 +11,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(BASE_DIR, "src"))
 from precompute_features import preprocess_video
 
-model = tf.keras.models.load_model(os.path.join(BASE_DIR, "models/VideoCLF.keras"))
+model = tf.keras.models.load_model(os.path.join(BASE_DIR, "models/VideoCLF_v2.keras"))
 feature_extractor = tf.keras.models.load_model(os.path.join(BASE_DIR, "models/resnet_50_feature_extractor.keras"))
 
 with open(os.path.join(BASE_DIR, "label_map.json"), "r") as f:
